@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Truck Request Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #E53935;
+        }
+
+        .logo-container img {
+            max-height: 80px;
+            width: auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #E53935;
+            box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+            border-bottom: 2px solid #ddd;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        td input,
+        td select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        td input:focus,
+        td select:focus {
+            outline: none;
+            border-color: #E53935;
+            box-shadow: 0 0 0 2px rgba(229, 57, 53, 0.1);
+        }
+
+        .conditional-fields {
+            display: none;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .conditional-fields.show {
+            display: block;
+        }
+
+        .conditional-fields input {
+            margin-bottom: 8px;
+            padding: 8px;
+            font-size: 13px;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .add-row-btn {
+            background: #E53935;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+        }
+
+        .add-row-btn:hover {
+            background: #D32F2F;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: flex-end;
+        }
+
+        button.submit-btn {
+            background: #E53935;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        button.submit-btn:hover {
+            background: #D32F2F;
+        }
+
+        button.reset-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        button.reset-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .info-box {
+            background: #FFEBEE;
+            border-left: 4px solid #E53935;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #C62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABCCAIAAABilny8AAAQAElEQVR4Aey7B7hdVZn4/a7dT709FRJCFSyIIE1EERWsWBBRUXoHCziOjl3HhoVhQBTFPvaGikoVBGmhhPTeb25v5562+/p+N/uba9STGcMjJvP8c3xZWftdby9rrb3vo6F38Tehg0gnuql1LWbQvt" alt="Laser Underground & Earthworks" style="max-height: 80px;">
+        </div>
+        
+        <h1>Daily Truck Request Form</h1>
+        
+        <div class="info-box">
+            Fill out this form to request trucks for the day. All fields marked with * are required.
+        </div>
+
+            <div class="success-message" id="successMessage" data-fs-success>
+            ✓ Form submitted successfully! Your truck request has been sent to trucking@laserug.com
+        </div>
+
+        <form id="truckForm" action="https://formspree.io/f/mjgnnnrq" method="POST">
+            <!-- Basic Info Section -->
+            <div class="form-section">
+                <h2>Basic Information</h2>
+                
+                <div class="form-group">
+                    <label for="name" class="required">Your Name</label>
+                    <select id="name" name="name" required>
+                        <option value="">Select your name</option>
+                        <option value="Aidan">Aidan</option>
+                        <option value="Jesse">Jesse</option>
+                        <option value="Mario">Mario</option>
+                    </select>
+                    <div class="error" id="nameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="date" class="required">Date Needed</label>
+                    <input type="date" id="date" name="date" required>
+                    <div class="error" id="dateError"></div>
+                </div>
+            </div>
+
+            <!-- Trucks Section -->
+            <div class="form-section">
+                <h2>Trucks Required</h2>
+                
+                <button type="button" class="add-row-btn" onclick="addTruckRow()">
+                    + Add Truck
+                </button>
+
+                <div class="table-wrapper">
+                    <table id="trucksTable">
+                        <thead>
+                            <tr>
+                                <th>Truck Type</th>
+                                <th>Arrival Time</th>
+                                <th>Material Needed</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trucksBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="error" id="trucksError"></div>
+            </div>
+
+            <!-- Equipment Section -->
+            <div class="form-section">
+                <h2>Equipment</h2>
+                
+                <div class="form-group">
+                    <label class="required">Do you need equipment moved?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="equipment" value="yes" onchange="toggleEquipmentFields()" required>
+                            Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="equipment" value="no" onchange="toggleEquipmentFields()" required>
+                            No
+                        </label>
+                    </div>
+                    <div class="error" id="equipmentError"></div>
+                </div>
+
+                <div id="equipmentDetailsSection" style="display: none; background: #FFEBEE; padding: 20px; border-radius: 6px; margin-top: 15px; border-left: 4px solid #E53935;">
+                    <div class="form-group">
+                        <label for="equipmentType" class="required">What equipment?</label>
+                        <input type="text" id="equipmentType" name="equipment_type" placeholder="e.g., Crane, Forklift, etc." required disabled>
+                        <div class="error" id="equipmentTypeError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipmentFrom" class="required">From (location)</label>
+                        <input type="text" id="equipmentFrom" name="equipment_from" placeholder="e.g., Warehouse A, Site entrance" required disabled>
+                        <div class="error" id="equipmentFromError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipmentTo" class="required">To (location)</label>
+                        <input type="text" id="equipmentTo" name="equipment_to" placeholder="e.g., Loading dock, Zone B" required disabled>
+                        <div class="error" id="equipmentToError"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="button-group">
+                <button type="reset" class="reset-btn">Clear Form</button>
+                <button type="submit" class="submit-btn">Submit Request</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Initialize with no truck rows
+        function initializeForm() {
+            // Set today's date as default
+            document.getElementById('date').valueAsDate = new Date();
+        }
+
+        function addTruckRow() {
+            const tbody = document.getElementById('trucksBody');
+            const rowId = Date.now();
+            const row = document.createElement('tr');
+            row.id = `truck-${rowId}`;
+            row.innerHTML = `
+                <td>
+                    <select name="truckType" class="truck-type" required>
+                        <option value="">Select type</option>
+                        <option value="TNT">TNT</option>
+                        <option value="Solo">Solo</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="time" name="arrivalTime" class="arrival-time" required>
+                </td>
+                <td>
+                    <select name="materialNeeded" class="material-select" onchange="toggleMaterialFields(${rowId})">
+                        <option value="">None</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                    <div class="conditional-fields" id="material-fields-${rowId}">
+                        <input type="text" name="materialType" placeholder="What material?" class="material-type">
+                        <input type="text" name="materialLocation" placeholder="Where from?" class="material-location">
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="delete-btn" onclick="deleteTruckRow(${rowId})">
+                        Delete
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function deleteTruckRow(rowId) {
+            document.getElementById(`truck-${rowId}`).remove();
+        }
+
+        function toggleMaterialFields(rowId) {
+            const select = document.querySelector(`#truck-${rowId} .material-select`);
+            const fields = document.getElementById(`material-fields-${rowId}`);
+            
+            if (select.value === 'yes') {
+                fields.classList.add('show');
+                fields.querySelector('.material-type').required = true;
+                fields.querySelector('.material-location').required = true;
+            } else {
+                fields.classList.remove('show');
+                fields.querySelector('.material-type').required = false;
+                fields.querySelector('.material-location').required = false;
+                fields.querySelector('.material-type').value = '';
+                fields.querySelector('.material-location').value = '';
+            }
+        }
+
+        function toggleEquipmentFields() {
+            const equipmentYes = document.querySelector('input[name="equipment"][value="yes"]').checked;
+            const section = document.getElementById('equipmentDetailsSection');
+            const typeInput = document.getElementById('equipmentType');
+            const fromInput = document.getElementById('equipmentFrom');
+            const toInput = document.getElementById('equipmentTo');
+
+            if (equipmentYes) {
+                section.style.display = 'block';
+                typeInput.disabled = false;
+                fromInput.disabled = false;
+                toInput.disabled = false;
+                typeInput.required = true;
+                fromInput.required = true;
+                toInput.required = true;
+            } else {
+                section.style.display = 'none';
+                typeInput.disabled = true;
+                fromInput.disabled = true;
+                toInput.disabled = true;
+                typeInput.required = false;
+                fromInput.required = false;
+                toInput.required = false;
+                typeInput.value = '';
+                fromInput.value = '';
+                toInput.value = '';
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            // Validate name
+            if (!document.getElementById('name').value.trim()) {
+                document.getElementById('nameError').textContent = 'Name is required';
+                isValid = false;
+            }
+
+            // Validate date
+            if (!document.getElementById('date').value) {
+                document.getElementById('dateError').textContent = 'Date is required';
+                isValid = false;
+            }
+
+            // Validate trucks - allow zero trucks now
+            // (removed the "at least one truck" requirement)
+
+            // Validate equipment
+            if (!document.querySelector('input[name="equipment"]:checked')) {
+                document.getElementById('equipmentError').textContent = 'Please select yes or no';
+                isValid = false;
+            }
+
+            // Validate equipment details if equipment is needed
+            if (document.querySelector('input[name="equipment"][value="yes"]').checked) {
+                if (!document.getElementById('equipmentType').value.trim()) {
+                    document.getElementById('equipmentTypeError').textContent = 'Equipment type is required';
+                    isValid = false;
+                }
+                if (!document.getElementById('equipmentFrom').value.trim()) {
+                    document.getElementById('equipmentFromError').textContent = 'From location is required';
+                    isValid = false;
+                }
+                if (!document.getElementById('equipmentTo').value.trim()) {
+                    document.getElementById('equipmentToError').textContent = 'To location is required';
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        function collectFormData() {
+            const trucks = [];
+            document.querySelectorAll('#trucksBody tr').forEach(row => {
+                const truckType = row.querySelector('.truck-type').value;
+                const arrivalTime = row.querySelector('.arrival-time').value;
+                const materialNeeded = row.querySelector('.material-select').value;
+                let material = '';
+                let materialLocation = '';
+
+                if (materialNeeded === 'yes') {
+                    material = row.querySelector('.material-type').value;
+                    materialLocation = row.querySelector('.material-location').value;
+                }
+
+                trucks.push({
+                    truckType,
+                    arrivalTime,
+                    materialNeeded: materialNeeded ? 'Yes' : 'No',
+                    material,
+                    materialLocation
+                });
+            });
+
+            const equipmentNeeded = document.querySelector('input[name="equipment"]:checked').value;
+            let equipmentDetails = null;
+
+            if (equipmentNeeded === 'yes') {
+                equipmentDetails = {
+                    type: document.getElementById('equipmentType').value,
+                    from: document.getElementById('equipmentFrom').value,
+                    to: document.getElementById('equipmentTo').value
+                };
+            }
+
+            return {
+                name: document.getElementById('name').value,
+                date: document.getElementById('date').value,
+                trucks,
+                equipmentNeeded: equipmentNeeded,
+                equipmentDetails: equipmentDetails
+            };
+        }
+        }
+
+        document.getElementById('truckForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = collectFormData();
+            
+            // Format truck data as readable text for email
+            let trucksText = '';
+            formData.trucks.forEach((truck, index) => {
+                trucksText += `\nTruck ${index + 1}:\n`;
+                trucksText += `  Type: ${truck.truckType}\n`;
+                trucksText += `  Arrival Time: ${truck.arrivalTime}\n`;
+                if (truck.materialNeeded === 'Yes') {
+                    trucksText += `  Material: ${truck.material}\n`;
+                    trucksText += `  From: ${truck.materialLocation}\n`;
+                } else {
+                    trucksText += `  Material: None\n`;
+                }
+            });
+
+            // Format equipment data
+            let equipmentText = formData.equipmentNeeded === 'yes' 
+                ? `Equipment: ${formData.equipmentDetails.type}\n  From: ${formData.equipmentDetails.from}\n  To: ${formData.equipmentDetails.to}`
+                : 'Equipment: None needed';
+
+            // Create hidden fields to send to Formspree
+            const formElement = document.getElementById('truckForm');
+            
+            // Add hidden fields for data that doesn't have visible inputs
+            const truckDataInput = document.createElement('input');
+            truckDataInput.type = 'hidden';
+            truckDataInput.name = 'trucks';
+            truckDataInput.value = trucksText;
+            formElement.appendChild(truckDataInput);
+
+            const equipmentDataInput = document.createElement('input');
+            equipmentDataInput.type = 'hidden';
+            equipmentDataInput.name = 'equipment_details';
+            equipmentDataInput.value = equipmentText;
+            formElement.appendChild(equipmentDataInput);
+
+            // Submit the form to Formspree
+            formElement.submit();
+        });
+
+        // Initialize form on page load
+        window.addEventListener('load', initializeForm);
+    </script>
+
+    <!-- Formspree AJAX Library -->
+    <script>
+      window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+      formspree('initForm', { formElement: '#truckForm', formId: 'mjgnnnrq' });
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
