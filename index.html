@@ -279,7 +279,6 @@
             color: #C62828;
         }
 
-        /* Mobile Optimizations */
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -302,13 +301,13 @@
 
             td input, td select {
                 padding: 6px;
-                font-size: 16px; /* Prevents zoom on focus */
+                font-size: 16px;
             }
 
             .delete-btn, .add-row-btn, .submit-btn, .reset-btn {
                 padding: 12px 16px;
                 font-size: 14px;
-                min-height: 44px; /* Apple touch target minimum */
+                min-height: 44px;
             }
 
             .button-group {
@@ -329,7 +328,7 @@
             }
 
             input[type="text"], input[type="date"], input[type="time"], select {
-                font-size: 16px; /* Prevents zoom on mobile */
+                font-size: 16px;
                 padding: 12px;
             }
 
@@ -398,7 +397,7 @@
         </div>
 
         <div class="success-message" id="successMessage" data-fs-success>
-            ✓ Form submitted successfully! Your truck request has been sent to trucking@laserug.com
+            ✓ Form submitted successfully! Your truck request has been sent.
         </div>
 
         <form id="truckForm">
@@ -686,7 +685,6 @@
                 ? `Equipment: ${formData.equipmentDetails.type} from ${formData.equipmentDetails.from} to ${formData.equipmentDetails.to}`
                 : 'No equipment needed';
 
-            // Send to Google Apps Script
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbxKM1OoAAohDBVyC8J8DiyG43ljAGi1pdQhLeztXa6Guvc1kz1rc551xW1CPr-UuEtV9g/exec';
             
             const payload = new URLSearchParams({
@@ -703,11 +701,9 @@
                     mode: 'no-cors'
                 });
 
-                // Show success message
                 const successMsg = document.getElementById('successMessage');
                 successMsg.classList.add('show');
                 
-                // Reset form after 2 seconds
                 setTimeout(() => {
                     document.getElementById('truckForm').reset();
                     successMsg.classList.remove('show');
