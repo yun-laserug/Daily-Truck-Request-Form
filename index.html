@@ -278,6 +278,111 @@
             font-size: 13px;
             color: #C62828;
         }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .logo-container img {
+                max-height: 60px;
+            }
+
+            th, td {
+                padding: 10px 6px;
+                font-size: 12px;
+            }
+
+            td input, td select {
+                padding: 6px;
+                font-size: 16px; /* Prevents zoom on focus */
+            }
+
+            .delete-btn, .add-row-btn, .submit-btn, .reset-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+                min-height: 44px; /* Apple touch target minimum */
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group button {
+                width: 100%;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            label {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+
+            input[type="text"], input[type="date"], input[type="time"], select {
+                font-size: 16px; /* Prevents zoom on mobile */
+                padding: 12px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .conditional-fields {
+                padding: 10px;
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .form-section h2 {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+
+            th, td {
+                padding: 8px 4px;
+                font-size: 11px;
+            }
+
+            td input, td select {
+                padding: 6px 4px;
+                font-size: 14px;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            .delete-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+            }
+
+            .add-row-btn {
+                padding: 12px 12px;
+                font-size: 13px;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
