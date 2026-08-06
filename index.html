@@ -296,7 +296,7 @@
             ✓ Form submitted successfully! Your truck request has been sent to trucking@laserug.com
         </div>
 
-        <form id="truckForm" action="https://formspree.io/f/mjgnnnrq" method="POST">
+        <form id="truckForm">
             <div class="form-section">
                 <h2>Basic Information</h2>
                 
@@ -569,45 +569,51 @@
             
             let trucksText = '';
             formData.trucks.forEach((truck, index) => {
-                trucksText += `\nTruck ${index + 1}:\n`;
-                trucksText += `  Type: ${truck.truckType}\n`;
-                trucksText += `  Arrival Time: ${truck.arrivalTime}\n`;
+                trucksText += `Truck ${index + 1}: ${truck.truckType} at ${truck.arrivalTime}`;
                 if (truck.materialNeeded === 'Yes') {
-                    trucksText += `  Material: ${truck.material}\n`;
-                    trucksText += `  From: ${truck.materialLocation}\n`;
-                } else {
-                    trucksText += `  Material: None\n`;
+                    trucksText += ` | Material: ${truck.material} from ${truck.materialLocation}`;
                 }
+                trucksText += '\n';
             });
 
             let equipmentText = formData.equipmentNeeded === 'yes' 
-                ? `Equipment: ${formData.equipmentDetails.type}\n  From: ${formData.equipmentDetails.from}\n  To: ${formData.equipmentDetails.to}`
-                : 'Equipment: None needed';
+                ? `Equipment: ${formData.equipmentDetails.type} from ${formData.equipmentDetails.from} to ${formData.equipmentDetails.to}`
+                : 'No equipment needed';
 
-            const formElement = document.getElementById('truckForm');
+            // Send to Google Apps Script
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbxKM1OoAAohDBVyC8J8DiyG43ljAGi1pdQhLeztXa6Guvc1kz1rc551xW1CPr-UuEtV9g/exec';
             
-            const truckDataInput = document.createElement('input');
-            truckDataInput.type = 'hidden';
-            truckDataInput.name = 'trucks';
-            truckDataInput.value = trucksText;
-            formElement.appendChild(truckDataInput);
+            const payload = new URLSearchParams({
+                name: formData.name,
+                date: formData.date,
+                trucks: trucksText,
+                equipment_details: equipmentText
+            });
 
-            const equipmentDataInput = document.createElement('input');
-            equipmentDataInput.type = 'hidden';
-            equipmentDataInput.name = 'equipment_details';
-            equipmentDataInput.value = equipmentText;
-            formElement.appendChild(equipmentDataInput);
+            try {
+                await fetch(scriptUrl, {
+                    method: 'POST',
+                    body: payload,
+                    mode: 'no-cors'
+                });
 
-            formElement.submit();
+                // Show success message
+                const successMsg = document.getElementById('successMessage');
+                successMsg.classList.add('show');
+                
+                // Reset form after 2 seconds
+                setTimeout(() => {
+                    document.getElementById('truckForm').reset();
+                    successMsg.classList.remove('show');
+                    initializeForm();
+                }, 2000);
+            } catch (error) {
+                alert('Error submitting form. Please try again.');
+                console.error('Error:', error);
+            }
         });
 
         window.addEventListener('load', initializeForm);
     </script>
-
-    <script>
-      window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-      formspree('initForm', { formElement: '#truckForm', formId: 'mjgnnnrq' });
-    </script>
-    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
